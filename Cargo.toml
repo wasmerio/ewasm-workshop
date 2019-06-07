@@ -1,0 +1,13 @@
+[package]
+name = "ewasm-workshop"
+version = "0.2.0"
+authors = ["Syrus Akbary <syrus@wasmer.io>"]
+edition = "2018"
+
+[dependencies]
+# wasmer-runtime = "0.4.2"
+wasmer-runtime = { git = "https://github.com/wasmerio/wasmer", branch = "master" }
+wasmer-runtime-core = { git = "https://github.com/wasmerio/wasmer", branch = "master" }
+wasmer-singlepass-backend = { git = "https://github.com/wasmerio/wasmer", branch = "master" }
+wasmer-middleware-common = { git = "https://github.com/wasmerio/wasmer", branch = "master" }
+rand = "0.6.5"

@@ -1,0 +1,10 @@
+[package]
+name = "wasm-smart-contract"
+version = "0.1.0"
+authors = ["Syrus Akbary <syrus@wasmer.io>"]
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
