@@ -1,9 +1,9 @@
 extern crate wasmer_runtime;
+extern crate rand;
 
 mod utils;
 
 use std::str;
-use rand::Rng;
 
 use wasmer_runtime::{
     imports,
@@ -22,7 +22,7 @@ static WASM: &'static [u8] = include_bytes!("../smartcontract/target/wasm32-unkn
 fn main() -> error::Result<()> {
     let import_object = imports! {
         "env" => {
-            "random_number" => func!(random_number),
+            "random_number" => func!(utils::random_number),
         },
     };
 
@@ -44,9 +44,4 @@ fn main() -> error::Result<()> {
     println!("Multiply by random: {}. Points used: {}", result[0].to_u64(), used);
 
     Ok(())
-}
-
-fn random_number(ctx: &mut Ctx) -> i32 {
-    let mut rng = rand::thread_rng();
-    rng.gen()
 }

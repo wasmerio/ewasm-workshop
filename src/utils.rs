@@ -1,5 +1,9 @@
+use rand;
+use rand::Rng;
+
 use wasmer_runtime_core::backend::Compiler;
 use wasmer_middleware_common::metering;
+use wasmer_runtime::Ctx;
 
 pub fn get_metered_compiler(limit: u64, metering: bool) -> impl Compiler {
     use wasmer_runtime_core::codegen::{MiddlewareChain, StreamingCompiler};
@@ -12,4 +16,9 @@ pub fn get_metered_compiler(limit: u64, metering: bool) -> impl Compiler {
         chain
     });
     c
+}
+
+pub fn random_number(ctx: &mut Ctx) -> i32 {
+    let mut rng = rand::thread_rng();
+    rng.gen()
 }
