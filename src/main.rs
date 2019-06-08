@@ -1,5 +1,7 @@
 extern crate wasmer_runtime;
 
+mod utils;
+
 use std::str;
 use rand::Rng;
 
@@ -12,21 +14,7 @@ use wasmer_runtime::{
     compile,
     compile_with
 };
-use wasmer_runtime_core::backend::Compiler;
 use wasmer_middleware_common::metering;
-
-fn get_metered_compiler(limit: u64, metering: bool) -> impl Compiler {
-    use wasmer_runtime_core::codegen::{MiddlewareChain, StreamingCompiler};
-    use wasmer_singlepass_backend::ModuleCodeGenerator as SinglePassMCG;
-    let c: StreamingCompiler<SinglePassMCG, _, _, _, _> = StreamingCompiler::new(move || {
-        let mut chain = MiddlewareChain::new();
-        if metering {
-            chain.push(metering::Metering::new(limit));
-        }
-        chain
-    });
-    c
-}
 
 // Make sure that the compiled wasm-sample-app is accessible at this path.
 static WASM: &'static [u8] = include_bytes!("../smartcontract/target/wasm32-unknown-unknown/release/wasm_smart_contract.wasm");
@@ -38,7 +26,7 @@ fn main() -> error::Result<()> {
         },
     };
 
-    let module = compile_with(&WASM, &get_metered_compiler(6, true)).unwrap();
+    let module = compile_with(&WASM, &utils::get_metered_compiler(6, true)).unwrap();
 
     // Compile our webassembly into an `Instance`.
     let instance = module.instantiate(&import_object)?;
